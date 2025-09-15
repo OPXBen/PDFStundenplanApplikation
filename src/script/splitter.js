@@ -1,12 +1,14 @@
-// Use PDFLib from the browser-ready script
-const PDFDocument = PDFLib.PDFDocument;
-// pdfjsLib is still loaded from the browser-ready pdf.js script
-// Make sure pdf.js is included in HTML via <script src="...pdf.js"></script>
-
 document.addEventListener("DOMContentLoaded", () => {
+  // Make sure PDF-lib is available
+  const { PDFDocument } = window.PDFLib || {};
+  if (!PDFDocument) {
+    console.error("PDF-lib not loaded! Check the script tag in index.html.");
+    return;
+  }
+
   const dropZone = document.getElementById("dropZone");
   const fileInput = document.getElementById("fileInput");
-  const splitButton = document.getElementById("splitButton");
+  const splitButton = document.getElementById("submit");
 
   let selectedFile = null;
 

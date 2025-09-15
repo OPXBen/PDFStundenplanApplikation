@@ -1,16 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StundenPlanMergerBFO</title>
-    <link id="theme" rel="stylesheet" type="text/css" href="../css/light-mode.css" />
-    <link rel="stylesheet" href="../css/main.css">
-    <script src="../script/darkModeToggle.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-    <script src="../js/pdf.js"></script> <!-- downloaded pdf.js for browser -->
-    <script src="../script/splitter.js"></script>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>StundenPlanMergerBFO</title>
+        <link rel="stylesheet" href="../css/light-mode.css">
+        <link rel="stylesheet" href="../css/main.css">
+        <script src="../script/darkModeToggle.js"></script>
+        <!-- PDF.js -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.15.349/pdf.min.js"></script>
+        <script>
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.15.349/pdf.worker.min.js';
+        </script>
+        <!-- PDF-lib (browser-ready) -->
+        <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+        <!-- Splitter JS -->
+        <script src="../script/splitter.js" defer></script>
+		<script src="../script/input.js"></script>
+    </head>
 <body>
     <h1>
         Title
