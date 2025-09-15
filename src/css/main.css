@@ -1,0 +1,20 @@
+/*
+Everything that doesnt change between dark and light mode
+for Example sizing or layout
+*/
+
+#themeToggle button {
+  background: none;     /* no background */
+  border: none;         /* no border */
+  padding: 0;           /* remove default padding */
+  cursor: pointer;      /* show pointer on hover */
+}
+
+#themeToggle button img {
+  display: block;       /* prevents small spacing issues */
+}
+
+#themeToggle button img:hover {
+  opacity: 0.7;   /* dim when hovered */
+  transform: scale(1.1); /* grow slightly */
+}

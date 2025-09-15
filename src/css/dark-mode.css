@@ -3,3 +3,7 @@ body {
     color: #76ABAE;
 
 }
+
+#themeToggle img {
+  filter: invert(1) hue-rotate(180deg); /* inverts colors */
+}

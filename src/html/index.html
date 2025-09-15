@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StundenPlanMergerBFO</title>
-    <link id="theme" rel="stylesheet" 
-          type="text/css" href="style.css" />
+    <link id="theme" rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" href="../css/main.css">
     <script src="../script/darkModeToggle.js"></script>
     <script src="../script/Script.js"></script>
 
@@ -16,14 +16,21 @@
     </h1>
 
     <div id="themeToggle">
-    <button onclick="toggleTheme('style.css')">
-        light
+    <button onclick="toggleTheme('light-mode.css')">
+        <img src="../img/sun.png" alt="Light Mode" style="width:20px;height:20px;">
     </button>
 
     <button onclick="toggleTheme('dark-mode.css')">
-        Dark
+        <img src="../img/moon.png" alt="Dark Mode" style="width:20px;height:20px;">
     </button>
     </div>
+
+    <form id="uploadFile" method="post" action="/upload">
+        <div id="dropZone">
+            Drop the PDF files here or click to select
+        </div>
+        <input type="file" id="fileInput" name="files" multiple accept=".pdf";>
+    </form>
 
 
 </body>

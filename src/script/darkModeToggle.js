@@ -5,11 +5,11 @@ window.addEventListener("DOMContentLoaded", () => {
         // Create a <link> if none exists
         let link = document.createElement("link");
         link.rel = "stylesheet";
-        link.href = "../css/style.css"; // default theme
+        link.href = "../css/light-mode.css"; // default theme
         document.head.appendChild(link);
     } else {
         // If one exists, set it to default
-        sheets[0].href = "../css/style.css";
+        sheets[0].href = "../css/light-mode.css";
     }
 });
 
