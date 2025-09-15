@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StundenPlanMergerBFO</title>
-    <link id="theme" rel="stylesheet" type="text/css" href="style.css" />
+    <link id="theme" rel="stylesheet" type="text/css" href="../css/light-mode.css" />
     <link rel="stylesheet" href="../css/main.css">
     <script src="../script/darkModeToggle.js"></script>
-    <script src="../script/Script.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="../js/pdf.js"></script> <!-- downloaded pdf.js for browser -->
+    <script src="../script/splitter.js"></script>
 </head>
 <body>
     <h1>
@@ -29,16 +30,9 @@
         <div id="dropZone">
             Drop the PDF files here or click to select
         </div>
-
-        <div id="fileInput">
-        <input type="file"  name="files" multiple accept=".pdf";>
-        </div>
+        <input type="file" id="fileInput" name="files" multiple accept=".pdf">
     </form>
-
-    <div id="submitButton">
-        <button type="submit" form="uploadFile">Upload Files</button>
-    </div>
-
+Accept Current
 
 </body>
 </html>
