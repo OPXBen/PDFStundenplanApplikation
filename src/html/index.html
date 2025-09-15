@@ -14,6 +14,10 @@
         </script>
         <!-- PDF-lib (browser-ready) -->
         <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+		<!-- JSZip for zipping multiple PDFs -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+		<!-- FileSaver.js for saving the zip -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
         <!-- Splitter JS -->
         <script src="../script/splitter.js" defer></script>
 		<script src="../script/input.js"></script>
@@ -47,13 +51,11 @@
         <input type="text" id="visaInput" placeholder="Enter Visa">
 
         <div id="pdfOption">
-            <label for="cars">Wie willst du das PDF:</label>
-            <select name="cars" id="cars">
-                <option id="einzelnePDF" value="einzelnePDF">Einzelne PDFs</option>
-                <option id="mergedPDF" value="mergedPDF">Merged PDFs</option>
+			<label for="pdfOption">How do you want the PDF:</label>
+			<select name="pdfOption" id="pdfOption">
+				<option id="einzelnePDF" value="einzelnePDF">Single PDFs in ZIP</option>
+				<option id="mergedPDF" value="mergedPDF">Merged PDF</option>
             </select>
         </div>
-
-
     </body>
 </html>
