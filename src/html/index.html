@@ -25,7 +25,7 @@
     </button>
     </div>
 
-    <form id="uploadFile" method="post" action="/upload">
+    <form id="uploadFile" method="post" action="../script/splitter,js">
         <div id="dropZone">
             Drop the PDF files here or click to select
         </div>
@@ -34,6 +34,10 @@
         <input type="file"  name="files" multiple accept=".pdf";>
         </div>
     </form>
+
+    <div id="submitButton">
+        <button type="submit" form="uploadFile">Upload Files</button>
+    </div>
 
 
 </body>
