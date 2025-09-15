@@ -4,17 +4,49 @@ for Example sizing or layout
 */
 
 #themeToggle button {
-  background: none;     /* no background */
-  border: none;         /* no border */
-  padding: 0;           /* remove default padding */
-  cursor: pointer;      /* show pointer on hover */
+    background: none;     /* no background */
+    border: none;         /* no border */
+    padding: 0;           /* remove default padding */
+    cursor: pointer;      /* show pointer on hover */        
 }
 
 #themeToggle button img {
-  display: block;       /* prevents small spacing issues */
+  display: block;      /* prevents small spacing issues */
+  margin: 10px;
 }
 
 #themeToggle button img:hover {
   opacity: 0.7;   /* dim when hovered */
   transform: scale(1.1); /* grow slightly */
+}
+
+
+#themeToggle {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1000; /* ensure it stays on top */
+}
+
+
+
+
+/* PDF Dropp */
+
+#dropZone {
+    border: 2px dashed #000000;
+    border-radius: 20px;
+    width: 80%;
+    height: 200px;
+    margin: 50px auto;
+    text-align: center;
+    line-height: 200px;
+    color: #888888;
+    font-family: Arial, sans-serif;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+#fileInput {
+    text-align : center;
+    margin-top: 5px;
 }

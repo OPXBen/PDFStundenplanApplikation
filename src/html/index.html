@@ -17,11 +17,11 @@
 
     <div id="themeToggle">
     <button onclick="toggleTheme('light-mode.css')">
-        <img src="../img/sun.png" alt="Light Mode" style="width:20px;height:20px;">
+        <img id="sun" src="../img/sun.png" alt="Light Mode" style="width:20px;height:20px;">
     </button>
 
     <button onclick="toggleTheme('dark-mode.css')">
-        <img src="../img/moon.png" alt="Dark Mode" style="width:20px;height:20px;">
+        <img id="moon" src="../img/moon.png" alt="Dark Mode" style="width:20px;height:20px;">
     </button>
     </div>
 
@@ -29,7 +29,10 @@
         <div id="dropZone">
             Drop the PDF files here or click to select
         </div>
-        <input type="file" id="fileInput" name="files" multiple accept=".pdf";>
+
+        <div id="fileInput">
+        <input type="file"  name="files" multiple accept=".pdf";>
+        </div>
     </form>
 
 
