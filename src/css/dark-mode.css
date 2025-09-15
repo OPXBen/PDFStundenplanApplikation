@@ -1,9 +1,26 @@
 body {
-    background-color: #222831;
-    color: #76ABAE;
-
+  background-color: #222831;
+  color: #76ABAE;
 }
 
-#themeToggle img {
+#moon {
   filter: invert(1) hue-rotate(180deg); /* inverts colors */
 }
+
+#sun {
+  filter: invert(1) hue-rotate(180deg); /* inverts colors */
+}
+
+#dropZone {
+  filter: invert(1) hue-rotate(180deg);
+  border: 2px dashed #000000;
+  border-radius: 20px;
+  width: 80%;
+  height: 200px;
+  margin: 50px auto;
+  text-align: center;
+  line-height: 200px;
+  color: #76ABAE;
+  font-family: Arial, sans-serif;
+  transition: background-color 0.3s, border-color 0.3s;
+}/*# sourceMappingURL=dark-mode.css.map */
