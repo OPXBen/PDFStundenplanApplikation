@@ -28,7 +28,10 @@ for Example sizing or layout
     z-index: 1000; /* ensure it stays on top */
 }
 
-
+#submitButton {
+  display: flex;
+  margin-left: 50%;
+}
 
 
 /* PDF Dropp */

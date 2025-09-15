@@ -26,6 +26,11 @@ for Example sizing or layout
   z-index: 1000; /* ensure it stays on top */
 }
 
+#submitButton {
+  display: flex;
+  margin-left: 50%;
+}
+
 /* PDF Dropp */
 #dropZone {
   border: 2px dashed #000000;
@@ -38,9 +43,4 @@ for Example sizing or layout
   color: #888888;
   font-family: Arial, sans-serif;
   transition: background-color 0.3s, border-color 0.3s;
-}
-
-#fileInput {
-  text-align: center;
-  margin-top: 5px;
 }/*# sourceMappingURL=main.css.map */
