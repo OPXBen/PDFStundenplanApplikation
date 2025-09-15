@@ -18,42 +18,31 @@
         <script src="../script/splitter.js" defer></script>
 		<script src="../script/input.js"></script>
     </head>
-<body>
-    <h1>
-        Title
-    </h1>
+    <body>
+        <h1>
+            Title
+        </h1>
 
-    <div id="themeToggle">
-    <button onclick="toggleTheme('light-mode.css')">
-        <img id="sun" src="../img/sun.png" alt="Light Mode" style="width:20px;height:20px;">
-    </button>
+        <div id="themeToggle">
+        <button onclick="toggleTheme('light-mode.css')">
+            <img id="sun" src="../img/sun.png" alt="Light Mode" style="width:20px;height:20px;">
+        </button>
 
-    <button onclick="toggleTheme('dark-mode.css')">
-        <img id="moon" src="../img/moon.png" alt="Dark Mode" style="width:20px;height:20px;">
-    </button>
-    </div>
-
-    <form id="uploadFile" method="post" action="../script/splitter,js">
-        <div id="dropZone">
-            Drop the PDF files here or click to select
+        <button onclick="toggleTheme('dark-mode.css')">
+            <img id="moon" src="../img/moon.png" alt="Dark Mode" style="width:20px;height:20px;">
+        </button>
         </div>
-         <input type="file" id="fileInput" name="files" accept=".pdf" style="display: none;">
-    </form>
 
-    <div id="submitButton">
-        <button id="submit">submit</button>
-    </div>
+        <form id="uploadFile" method="post" action="../script/splitter,js">
+            <div id="dropZone">
+                Drop the PDF files here or click to select
+            </div>
+            <input type="file" id="fileInput" name="files" accept=".pdf" style="display: none;">
+        </form>
 
-        <input 
-            id="visaInput" 
-            type="text" 
-            maxlength="4" 
-            pattern="[A-Za-z0-9]*" 
-            placeholder="bitte VISA der Lehrer eingeben"
-            style="width: 190px;"
-            onclick="myAction()"
-        >
+        <div id="submitButton">
+            <button id="submit">submit</button>
+        </div>
 
-
-</body>
+    </body>
 </html>
