@@ -58,15 +58,38 @@ h1 {
   background-color: rgba(136, 136, 136, 0.2078431373);
 }
 
-#pdfOption {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 10px;
+#listVisaUI {
+  position: absolute;
+  margin-top: 0%;
+  margin-left: 0%;
+  max-width: 100px;
+  max-height: 200px; /* Limit height */
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding: 10px; /* Optional: Padding for better appearance */
+  z-index: 10; /* Ensure it appears above other content if needed */
+  list-style: none; /* Remove numbers or symbols */
+}
+#listVisaUI li {
+  list-style: none; /* Ensure list items have no markers */
+}
+#listVisaUI li:hover {
+  background-color: rgba(136, 136, 136, 0.2078431373);
+  text-decoration: line-through;
+}
+
+#pdfOption select {
+  border-radius: 5px;
+  margin-right: 23%;
+}
+#pdfOption label {
+  font-family: Arial, sans-serif;
+  margin-left: 40%;
 }
 
 #submitButton {
   display: flex;
   margin-left: 50%;
+  margin-top: 2%;
 }
 #submitButton button {
   border-radius: 5px;
