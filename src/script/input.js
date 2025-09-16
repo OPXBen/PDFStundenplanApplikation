@@ -1,12 +1,18 @@
-const input = document.getElementById("visaInput");
+document.addEventListener("DOMContentLoaded", () => {
+    let enterPressed = false;
 
-input.addEventListener("keydown", function(e) {
-    if (e.key === "Enter") {  // or e.keyCode === 13
-        e.preventDefault(); // prevent form submission if inside a form
-        myAction();
-    }
+    const inputField = document.getElementById("visaInput");
+
+    inputField.addEventListener("keydown", (event) => {
+        if (event.key == "Enter") {
+            enterPressed = true;
+        }
+
+        console.log("Key pressed:", event.key);
+        console.log("was enter pressed?", enterPressed);
+    });
 });
 
-function myAction() {
-    alert("You pressed Enter or clicked the button!");
-}
+    valueInput = document.getElementById("visaInput");
+    console.log("Input field:", valueInput);
+ 

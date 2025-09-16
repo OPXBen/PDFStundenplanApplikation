@@ -22,6 +22,7 @@
         <script src="../script/splitter.js" defer></script>
 		<script src="../script/input.js"></script>
     </head>
+
     <body>
         <h1>
             BFO
@@ -37,7 +38,7 @@
         </button>
         </div>
 
-        <input type="text" id="visaInput" placeholder="Enter Visa" onkeypress="TEST()">
+        <input type="text" id="visaInput" placeholder="Enter Visa" maxlength="4" style="text-transform:uppercase;">
 
         <form id="uploadFile" method="post" action="../script/splitter,js">
             <div id="dropZone">
@@ -57,7 +58,6 @@
         <div id="submitButton">
             <button id="submit">submit</button>
         </div>
-
 
 
     </body>
