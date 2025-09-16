@@ -1,5 +1,6 @@
 $bgcolor: #222831;
 $fontcolor: #76ABAE;
+$hovercolor: #88888835;
 
 
 
@@ -15,6 +16,10 @@ body {
 
 #sun  {
   filter: invert(1) hue-rotate(180deg); /* inverts colors */
+}
+
+#inputField {
+  filter: invert(1) hue-rotate(180deg);
 }
 
 #dropZone {

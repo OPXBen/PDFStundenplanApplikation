@@ -3,6 +3,12 @@ Everything that doesnt change between dark and light mode
 for Example sizing or layout
 */
 
+h1{
+    text-align: center;
+    margin-top: 20px;
+    font-family: Arial, sans-serif;
+}
+
 #themeToggle button {
     background: none;     /* no background */
     border: none;         /* no border */
@@ -28,9 +34,11 @@ for Example sizing or layout
     z-index: 1000; /* ensure it stays on top */
 }
 
-#pdfOption {
-  display: flex;
-  margin-left: 50%;
+#visaInput {
+display: flex;
+margin-top: 8%;
+margin-left: 10% ;
+border-radius: 5px;
 }
 
 
@@ -41,16 +49,37 @@ for Example sizing or layout
     border-radius: 20px;
     width: 80%;
     height: 200px;
-    margin: 50px auto;
+    margin-top: 1%;
+    margin-left: 10%;
+    margin-bottom: 5%;
     text-align: center;
     line-height: 200px;
     color: #888888;
     font-family: Arial, sans-serif;
     transition: background-color 0.3s, border-color 0.3s;
+
+    &:hover {
+      background-color: #88888835;
+
+    }
+}
+
+#pdfOption {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
 }
 
 #submitButton {
   display: flex;
   margin-left: 50%;
+
+  & button {
+    border-radius: 5px;
+  }
+
+  & button:hover {
+    background-color: #88888835;
+  }
 }
 

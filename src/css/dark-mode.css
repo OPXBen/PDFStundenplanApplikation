@@ -11,6 +11,10 @@ body {
   filter: invert(1) hue-rotate(180deg); /* inverts colors */
 }
 
+#inputField {
+  filter: invert(1) hue-rotate(180deg);
+}
+
 #dropZone {
   filter: invert(1) hue-rotate(180deg);
   border: 2px dashed #000000;
