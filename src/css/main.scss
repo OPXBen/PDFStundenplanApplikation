@@ -28,7 +28,7 @@ for Example sizing or layout
     z-index: 1000; /* ensure it stays on top */
 }
 
-#submitButton {
+#pdfOption {
   display: flex;
   margin-left: 50%;
 }
@@ -49,4 +49,8 @@ for Example sizing or layout
     transition: background-color 0.3s, border-color 0.3s;
 }
 
+#submitButton {
+  display: flex;
+  margin-left: 50%;
+}
 
