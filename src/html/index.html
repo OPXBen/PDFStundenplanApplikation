@@ -33,6 +33,15 @@
         </button>
         </div>
 
+        <div id="pdfOption">
+            <label for="cars">Wie willst du das PDF:</label>
+            <select name="cars" id="cars">
+                <option id="einzelnePDF" value="einzelnePDF">Einzelne PDFs</option>
+                <option id="mergedPDF" value="mergedPDF">Merged PDFs</option>
+            </select>
+        </div>
+
+
         <form id="uploadFile" method="post" action="../script/splitter,js">
             <div id="dropZone">
                 Drop the PDF files here or click to select
@@ -46,13 +55,6 @@
 
         <input type="text" id="visaInput" placeholder="Enter Visa">
 
-        <div id="pdfOption">
-            <label for="cars">Wie willst du das PDF:</label>
-            <select name="cars" id="cars">
-                <option id="einzelnePDF" value="einzelnePDF">Einzelne PDFs</option>
-                <option id="mergedPDF" value="mergedPDF">Merged PDFs</option>
-            </select>
-        </div>
 
 
     </body>
