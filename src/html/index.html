@@ -42,12 +42,10 @@
 
         <input type="text" id="visaInput" placeholder="Enter Visa" maxlength="4" style="text-transform:uppercase;">
 
-        <form id="uploadFile" method="post" action="../script/splitter,js">
-            <div id="dropZone">
-                Drop the PDF files here or click to select
-            </div>
-            <input type="file" id="fileInput" name="files" accept=".pdf" style="display: none;">
-        </form>
+        <div id="dropZone">
+            Drop the PDF files here or click to select
+        </div>
+        <input type="file" id="fileInput" name="files" accept=".pdf" style="display: none;">
 
         <div id="listVisaUI">
             <ul id="listVisa">
@@ -55,18 +53,16 @@
             </ul>
         </div>
 
-                <div id="pdfOption">
+        <div id=""><!--Hallo Ben hier war die id "pdfOption" die solltest du aber nicht benützen wenn die id auch beim <select> verwendet wird, wenn du merere sachen willst bearbeiten benütz name="pdfOption" LG jürg -->
 			<label for="pdfOption">How do you want the PDF:</label>
 			<select name="pdfOption" id="pdfOption">
-				<option id="einzelnePDF" value="einzelnePDF">Single PDFs in ZIP</option>
-				<option id="mergedPDF" value="mergedPDF">Merged PDF</option>
+				<option value="einzelnePDF">Single PDFs in ZIP</option>
+				<option value="mergedPDF">Merged PDF</option>
             </select>
         </div>
 
         <div id="submitButton">
-            <button id="submit">submit</button>
+			<button type="button" id="submit">submit</button>
         </div>
-
-
     </body>
 </html>

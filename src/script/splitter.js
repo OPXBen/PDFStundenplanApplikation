@@ -5,6 +5,11 @@ document.addEventListener("DOMContentLoaded", () => {
 		return;
 	}
 
+	if (typeof pdfjsLib === "undefined") {
+		console.error("pdfjsLib not loaded! Check the script tag in index.html.");
+		return;
+	}
+
 	const dropZone = document.getElementById("dropZone");
 	const fileInput = document.getElementById("fileInput");
 	const splitButton = document.getElementById("submit");
@@ -12,17 +17,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	let selectedFile = null;
 
+	// -----------------------------
 	// File selection via input
+	// -----------------------------
 	fileInput.addEventListener("change", (e) => {
 		if (!e.target.files.length) return;
 		selectedFile = e.target.files[0];
-		console.log("Selected file:", selectedFile.name);
+		console.log("Selected via input:", selectedFile.name);
+		dropZone.textContent = `Selected: ${selectedFile.name}`;
 	});
 
+	// -----------------------------
 	// Click dropZone to open file dialog
+	// -----------------------------
 	dropZone.addEventListener("click", () => fileInput.click());
 
-	// Prevent default drag behaviors for the document
+	// -----------------------------
+	// Prevent default drag behaviors
+	// -----------------------------
 	["dragenter", "dragover", "dragleave", "drop"].forEach(eventName => {
 		document.addEventListener(eventName, e => {
 			e.preventDefault();
@@ -43,20 +55,34 @@ document.addEventListener("DOMContentLoaded", () => {
 		if (!files || !files.length) return;
 		selectedFile = files[0];
 		console.log("Dropped file:", selectedFile.name);
+		dropZone.textContent = `Selected: ${selectedFile.name}`;
 	});
 
-	// Split button
+	// -----------------------------
+	// Submit button
+	// -----------------------------
 	splitButton.addEventListener("click", async () => {
-		if (!selectedFile) return alert("Please select a PDF first!");
-		if (selectedFile.type !== "application/pdf") return alert("Please select a PDF file!");
+		console.log("Submit clicked. Current file:", selectedFile);
 
-		const mode = optionSelect.value; // einzelenePDF or mergedPDF
+		if (!selectedFile) {
+			alert("Please select a PDF first!");
+			return;
+		}
+		if (selectedFile.type !== "application/pdf") {
+			alert("Please select a PDF file!");
+			return;
+		}
+
+		const mode = optionSelect.value;
+		console.log("Mode selected:", mode);
 
 		try {
 			const arrayBuffer = await selectedFile.arrayBuffer();
 			if (mode === "einzelnePDF") {
+				console.log("Running splitToZip...");
 				await splitToZip(arrayBuffer);
 			} else if (mode === "mergedPDF") {
+				console.log("Running mergeToSingle...");
 				await mergeToSingle(arrayBuffer);
 			}
 		} catch (err) {
