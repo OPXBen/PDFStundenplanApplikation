@@ -105,18 +105,45 @@ document.addEventListener("DOMContentLoaded", () => {
 		for (let i = 1; i <= numPages; i++) {
 			const page = await pdfTextDoc.getPage(i);
 			const textContent = await page.getTextContent();
-			const text = textContent.items.map(it => it.str).join(" ");
+			const items = textContent.items.map(it => it.str);
 
-			let match = text.match(/^(.*?)\s+Pers\.Nr\./);
-			let name = match ? match[1].trim() : `page-${i}`;
-			name = name.replace(/[^a-z0-9_\-]/gi, "_");
+			// Debug: show the first 40 items
+			console.log(`--- Page ${i} first 40 items ---`, items.slice(0, 40));
 
+			let code = null;
+
+			// Find the first item that looks like a teacher short code
+			for (let str of items.slice(0, 40)) {
+				if (/^[a-z]{2,5}\d?$/.test(str.trim())) {
+					code = str.trim().toLowerCase();
+					break;
+				}
+			}
+
+			// Fallback
+			if (!code) {
+				code = `teacher${i}`;
+			}
+
+			// Sanitize filename
+			code = code.replace(/[^a-z0-9\-]/g, "");
+
+			// Ensure unique filename in ZIP
+			let filename = `${code}.pdf`;
+			let suffix = 1;
+			while (zip.file(filename)) {
+				filename = `${code}_${suffix++}.pdf`;
+			}
+
+			// Copy page into new PDF
 			const newDoc = await PDFDocument.create();
 			const [copiedPage] = await newDoc.copyPages(pdfDoc, [i - 1]);
 			newDoc.addPage(copiedPage);
 
 			const pdfBytes = await newDoc.save();
-			zip.file(`${name}.pdf`, pdfBytes);
+			zip.file(filename, pdfBytes);
+
+			console.log(`page ${i} -> ${filename}`);
 		}
 
 		const zipBlob = await zip.generateAsync({ type: "blob" });
