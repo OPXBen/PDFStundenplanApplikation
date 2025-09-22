@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Check for duplicate and show error if needed
             const errorDiv = document.getElementById('visaError');
-            if (value && value.length === 4) {
+            if (value && value.length === 4 || 5) {
             if (window.visaArray.includes(value)) {
                 if (errorDiv) {
                 errorDiv.textContent = "Error: This value is already in the list.";
