@@ -34,8 +34,6 @@ cd StundenPlanMergerBFO
 
 2. Open `src/html/index.html` in your browser.
 
-> ⚠ Make sure you have an active internet connection for the external libraries via CDN: `pdf.js`, `pdf-lib`, `JSZip`, and `FileSaver.js`.
-
 ---
 
 ## Usage
@@ -53,7 +51,7 @@ cd StundenPlanMergerBFO
 
 ## Dependencies
 
-All libraries are loaded via CDN:
+All libraries are stored localy:
 
 * [pdf.js](https://github.com/mozilla/pdf.js) – Apache-2.0
 * [pdf-lib](https://github.com/Hopding/pdf-lib) – MIT

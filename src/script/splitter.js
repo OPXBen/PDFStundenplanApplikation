@@ -108,7 +108,8 @@ document.addEventListener("DOMContentLoaded", () => {
 			const textContent = await page.getTextContent();
 			const items = textContent.items.map(it => it.str);
 
-			let code = null;
+			let code = null; // visa
+			let namePart = ""; // name
 
 			if (visaArray.length > 0) {
 				for (const visa of visaArray) {
@@ -120,6 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				}
 				if (!code) continue;
 			} else {
+				// Auto-detect visa
 				for (let str of items.slice(0, 40)) {
 					if (/^[a-z]{2,5}\d?$/i.test(str.trim())) {
 						code = str.trim().toUpperCase();
@@ -129,11 +131,26 @@ document.addEventListener("DOMContentLoaded", () => {
 				if (!code) code = `PAGE${i}`;
 			}
 
-			code = code.replace(/[^A-Z0-9\-]/gi, "");
-			let filename = `${code}.pdf`;
+			// Extract name: everything after visa up to "Pers.Nr."
+			const joinedText = items.join(" ");
+			const visaRegex = new RegExp(`${code}\\s+(.*?)\\s+Pers\\.Nr\\.?`, "i");
+			const match = joinedText.match(visaRegex);
+			if (match && match[1]) {
+				namePart = match[1].trim().replace(/\s+/g, "_");
+			}
+
+			// Build filename: VISA_fullname
+			let filename = code;
+			if (namePart) filename += "_" + namePart;
+
+			// Sanitize filename
+			filename = filename.replace(/[^A-Za-z0-9\-_]/g, "");
+
+			// Ensure unique filename
 			let suffix = 1;
-			while (zip.file(filename)) {
-				filename = `${code}_${suffix++}.pdf`;
+			let finalName = filename + ".pdf";
+			while (zip.file(finalName)) {
+				finalName = `${filename}_${suffix++}.pdf`;
 			}
 
 			const newDoc = await PDFDocument.create();
@@ -141,7 +158,8 @@ document.addEventListener("DOMContentLoaded", () => {
 			newDoc.addPage(copiedPage);
 
 			const pdfBytes = await newDoc.save();
-			zip.file(filename, pdfBytes);
+			zip.file(finalName, pdfBytes);
+			console.log(`page ${i} -> ${finalName}`);
 		}
 
 		if (Object.keys(zip.files).length === 0) {
