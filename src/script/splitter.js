@@ -90,7 +90,6 @@ document.addEventListener("DOMContentLoaded", () => {
 			alert("Failed. See console for details.");
 		}
 	});
-
 	// -----------------------------
 	// Split into individual PDFs → ZIP
 	// -----------------------------
@@ -101,56 +100,68 @@ document.addEventListener("DOMContentLoaded", () => {
 		const numPages = pdfTextDoc.numPages;
 
 		const zip = new JSZip();
+		const foundVisas = new Set();
+		const visaArray = window.visaArray || [];
 
 		for (let i = 1; i <= numPages; i++) {
 			const page = await pdfTextDoc.getPage(i);
 			const textContent = await page.getTextContent();
 			const items = textContent.items.map(it => it.str);
 
-			// Debug: show the first 40 items
-			console.log(`--- Page ${i} first 40 items ---`, items.slice(0, 40));
-
 			let code = null;
 
-			// Find the first item that looks like a teacher short code
-			for (let str of items.slice(0, 40)) {
-				if (/^[a-z]{2,5}\d?$/.test(str.trim())) {
-					code = str.trim().toLowerCase();
-					break;
+			if (visaArray.length > 0) {
+				for (const visa of visaArray) {
+					if (items.some(str => str.toUpperCase().includes(visa.toUpperCase()))) {
+						code = visa;
+						foundVisas.add(visa);
+						break;
+					}
 				}
+				if (!code) continue;
+			} else {
+				for (let str of items.slice(0, 40)) {
+					if (/^[a-z]{2,5}\d?$/i.test(str.trim())) {
+						code = str.trim().toUpperCase();
+						break;
+					}
+				}
+				if (!code) code = `PAGE${i}`;
 			}
 
-			// Fallback
-			if (!code) {
-				code = `teacher${i}`;
-			}
-
-			// Sanitize filename
-			code = code.replace(/[^a-z0-9\-]/g, "");
-
-			// Ensure unique filename in ZIP
+			code = code.replace(/[^A-Z0-9\-]/gi, "");
 			let filename = `${code}.pdf`;
 			let suffix = 1;
 			while (zip.file(filename)) {
 				filename = `${code}_${suffix++}.pdf`;
 			}
 
-			// Copy page into new PDF
 			const newDoc = await PDFDocument.create();
 			const [copiedPage] = await newDoc.copyPages(pdfDoc, [i - 1]);
 			newDoc.addPage(copiedPage);
 
 			const pdfBytes = await newDoc.save();
 			zip.file(filename, pdfBytes);
+		}
 
-			console.log(`page ${i} -> ${filename}`);
+		if (Object.keys(zip.files).length === 0) {
+			alert("All visas entered are not in the provided PDF. Please check the PDF or the visa codes.");
+			return;
 		}
 
 		const zipBlob = await zip.generateAsync({ type: "blob" });
 		saveAs(zipBlob, "split_pdfs.zip");
 
-		console.log("ZIP created successfully!");
-		alert("All PDFs saved into a ZIP!");
+		if (visaArray.length > 0) {
+			const missing = visaArray.filter(v => !foundVisas.has(v));
+			if (missing.length) {
+				alert(`ZIP created, but visa(s) ${missing.join(", ")} were not found in the document.`);
+			} else {
+				console.log("✅ All requested visas saved into a ZIP!");
+			}
+		} else {
+			console.log("✅ All pages saved into a ZIP!");
+		}
 	}
 
 	// -----------------------------
@@ -163,17 +174,55 @@ document.addEventListener("DOMContentLoaded", () => {
 		const numPages = pdfTextDoc.numPages;
 
 		const mergedDoc = await PDFDocument.create();
+		const foundVisas = new Set();
+		const visaArray = window.visaArray || [];
+		let addedPages = 0;
 
-		for (let i = 0; i < numPages; i++) {
-			const [copiedPage] = await mergedDoc.copyPages(pdfDoc, [i]);
-			mergedDoc.addPage(copiedPage);
+		for (let i = 1; i <= numPages; i++) {
+			const page = await pdfTextDoc.getPage(i);
+			const textContent = await page.getTextContent();
+			const items = textContent.items.map(it => it.str);
+
+			let includePage = false;
+
+			if (visaArray.length > 0) {
+				for (const visa of visaArray) {
+					if (items.some(str => str.toUpperCase().includes(visa.toUpperCase()))) {
+						foundVisas.add(visa);
+						includePage = true;
+						break;
+					}
+				}
+			} else {
+				includePage = true;
+			}
+
+			if (includePage) {
+				const [copiedPage] = await mergedDoc.copyPages(pdfDoc, [i - 1]);
+				mergedDoc.addPage(copiedPage);
+				addedPages++;
+			}
+		}
+
+		if (addedPages === 0) {
+			alert("All visas entered are not in the provided PDF. Please check the PDF or the visa codes.");
+			return;
 		}
 
 		const mergedBytes = await mergedDoc.save();
 		const blob = new Blob([mergedBytes], { type: "application/pdf" });
 		saveAs(blob, "merged.pdf");
 
-		console.log("Merged PDF created!");
-		alert("Merged PDF saved!");
+		if (visaArray.length > 0) {
+			const missing = visaArray.filter(v => !foundVisas.has(v));
+			if (missing.length) {
+				alert(`Merged PDF created, but visa(s) ${missing.join(", ")} were not found in the document.`);
+			} else {
+				console.log("✅ Merged PDF created with all requested visas!");
+			}
+		} else {
+			console.log("✅ Merged PDF created with all pages!");
+		}
 	}
+
 });
