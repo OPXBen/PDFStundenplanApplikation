@@ -1,4 +1,5 @@
 import { Environnement } from "./Environnement.js";
+import { DropZoneHandler } from "./DropZoneHandler.js";
 
 document.addEventListener("DOMContentLoaded", () => {
 	const { PDFDocument } = window.PDFLib || {};
@@ -6,72 +7,42 @@ document.addEventListener("DOMContentLoaded", () => {
 		console.error("PDF-lib not loaded! Check the script tag in index.html.");
 		return;
 	}
-
 	if (typeof pdfjsLib === "undefined") {
 		console.error("pdfjsLib not loaded! Check the script tag in index.html.");
 		return;
 	}
 
-	const dropZonePDF = document.getElementById("dropZonePDF");
-	const fileInput = document.getElementById("fileInput");
 	const splitButton = document.getElementById("submit");
 	const optionSelect = document.getElementById("pdfOption");
 	const env = new Environnement();
 
-	let selectedFile = null;
+	let selectedPDF = null;
 
 	// -----------------------------
-	// File selection via input
+	// Initialize DropZones
 	// -----------------------------
-	fileInput.addEventListener("change", (e) => {
-		if (!e.target.files.length) return;
-		selectedFile = e.target.files[0];
-		console.log("Selected via input:", selectedFile.name);
-		dropZonePDF.textContent = `Selected: ${selectedFile.name}`;
+	const pdfDrop = new DropZoneHandler({
+		zoneId: "dropZonePDF",
+		fileType: "pdf",
+		onFileSelected: (file) => {
+			selectedPDF = file;
+		}
 	});
 
-	// -----------------------------
-	// Click dropZonePDF to open file dialog
-	// -----------------------------
-	dropZonePDF.addEventListener("click", () => fileInput.click());
-
-	// -----------------------------
-	// Prevent default drag behaviors
-	// -----------------------------
-	["dragenter", "dragover", "dragleave", "drop"].forEach(eventName => {
-		document.addEventListener(eventName, e => {
-			e.preventDefault();
-			e.stopPropagation();
-		}, false);
-	});
-
-	dropZonePDF.addEventListener("dragover", (e) => {
-		e.dataTransfer.dropEffect = "copy";
-		dropZonePDF.classList.add("highlight");
-	});
-
-	dropZonePDF.addEventListener("dragleave", () => dropZonePDF.classList.remove("highlight"));
-
-	dropZonePDF.addEventListener("drop", (e) => {
-		dropZonePDF.classList.remove("highlight");
-		const files = e.dataTransfer.files;
-		if (!files || !files.length) return;
-		selectedFile = files[0];
-		console.log("Dropped file:", selectedFile.name);
-		dropZonePDF.textContent = `Selected: ${selectedFile.name}`;
+	const visaDrop = new DropZoneHandler({
+		zoneId: "dropZoneVISA",
+		fileType: "visa"
 	});
 
 	// -----------------------------
 	// Submit button
 	// -----------------------------
 	splitButton.addEventListener("click", async () => {
-		console.log("Submit clicked. Current file:", selectedFile);
-
-		if (!selectedFile) {
+		if (!selectedPDF) {
 			alert("Please select a PDF first!");
 			return;
 		}
-		if (selectedFile.type !== "application/pdf") {
+		if (selectedPDF.type !== "application/pdf") {
 			alert("Please select a PDF file!");
 			return;
 		}
@@ -80,12 +51,10 @@ document.addEventListener("DOMContentLoaded", () => {
 		console.log("Mode selected:", mode);
 
 		try {
-			const arrayBuffer = await selectedFile.arrayBuffer();
+			const arrayBuffer = await selectedPDF.arrayBuffer();
 			if (mode === "einzelnePDF") {
-				console.log("Running splitToZip...");
 				await splitToZip(arrayBuffer);
 			} else if (mode === "mergedPDF") {
-				console.log("Running mergeToSingle...");
 				await mergeToSingle(arrayBuffer);
 			}
 		} catch (err) {
@@ -93,6 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			alert("Error processing PDF:", err);
 		}
 	});
+
 	// -----------------------------
 	// Split into individual PDFs → ZIP
 	// -----------------------------
@@ -111,8 +81,8 @@ document.addEventListener("DOMContentLoaded", () => {
 			const textContent = await page.getTextContent();
 			const items = textContent.items.map(it => it.str);
 
-			let code = null; // visa
-			let namePart = ""; // name
+			let code = null;
+			let namePart = "";
 
 			if (visaArray.length > 0) {
 				for (const visa of visaArray) {
@@ -124,7 +94,6 @@ document.addEventListener("DOMContentLoaded", () => {
 				}
 				if (!code) continue;
 			} else {
-				// Auto-detect visa
 				for (let str of items.slice(0, 40)) {
 					if (/^[a-z]{2,5}\d?$/i.test(str.trim())) {
 						code = str.trim().toUpperCase();
@@ -134,7 +103,6 @@ document.addEventListener("DOMContentLoaded", () => {
 				if (!code) code = `PAGE${i}`;
 			}
 
-			// Extract name: everything after visa up to "Pers.Nr."
 			const joinedText = items.join(" ");
 			const visaRegex = new RegExp(`${code}\\s+(.*?)\\s+Pers\\.Nr\\.?`, "i");
 			const match = joinedText.match(visaRegex);
@@ -142,14 +110,10 @@ document.addEventListener("DOMContentLoaded", () => {
 				namePart = match[1].trim().replace(/\s+/g, "_");
 			}
 
-			// Build filename: VISA_fullname
 			let filename = code;
 			if (namePart) filename += "_" + namePart;
-
-			// Sanitize filename
 			filename = filename.replace(/[^A-Za-z0-9\-_]/g, "");
 
-			// Ensure unique filename
 			let suffix = 1;
 			let finalName = filename + ".pdf";
 			while (zip.file(finalName)) {
@@ -162,7 +126,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 			const pdfBytes = await newDoc.save();
 			zip.file(finalName, pdfBytes);
-			console.log(`page ${i} -> ${finalName}`);
 		}
 
 		if (Object.keys(zip.files).length === 0) {
@@ -176,7 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		if (visaArray.length > 0) {
 			const missing = visaArray.filter(v => !foundVisas.has(v));
 			if (missing.length) {
-				env.noBreakMessage(`ZIP created, but visa(s) ${missing.join(", ")} were not found in the document.`);
+				env.noBreakMessage(`ZIP created, but visa(s) ${missing.join(", ")} were not found.`);
 			} else {
 				env.downloadMessage("✅ All requested visas saved into a ZIP!");
 			}
@@ -204,7 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			const textContent = await page.getTextContent();
 			const items = textContent.items.map(it => it.str);
 
-			let includePage = false;
+			let includePage = visaArray.length === 0;
 
 			if (visaArray.length > 0) {
 				for (const visa of visaArray) {
@@ -214,8 +177,6 @@ document.addEventListener("DOMContentLoaded", () => {
 						break;
 					}
 				}
-			} else {
-				includePage = true;
 			}
 
 			if (includePage) {
@@ -237,7 +198,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		if (visaArray.length > 0) {
 			const missing = visaArray.filter(v => !foundVisas.has(v));
 			if (missing.length) {
-				alert(`Merged PDF created, but visa(s) ${missing.join(", ")} were not found in the document.`);
+				alert(`Merged PDF created, but visa(s) ${missing.join(", ")} were not found.`);
 			} else {
 				env.downloadMessage("✅ Merged PDF created with all requested visas!");
 			}
@@ -245,5 +206,4 @@ document.addEventListener("DOMContentLoaded", () => {
 			env.downloadMessage("✅ Merged PDF created with all pages!");
 		}
 	}
-
 });
