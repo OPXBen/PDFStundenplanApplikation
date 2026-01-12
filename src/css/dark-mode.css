@@ -1,6 +1,11 @@
 body {
   background-color: #222831;
-  color: #76ABAE;
+  color: #FFE8DF;
+  filter: invert(1) hue-rotate(180deg);
+}
+
+#table {
+  filter: invert(1) hue-rotate(180deg); /* inverts colors */
 }
 
 #moon {
@@ -9,22 +14,4 @@ body {
 
 #sun {
   filter: invert(1) hue-rotate(180deg); /* inverts colors */
-}
-
-#inputField {
-  filter: invert(1) hue-rotate(180deg);
-}
-
-#dropZonePDF {
-  filter: invert(1) hue-rotate(180deg);
-  border: 2px dashed #000000;
-  border-radius: 20px;
-  width: 80%;
-  height: 200px;
-  margin: 50px auto;
-  text-align: center;
-  line-height: 200px;
-  color: #76ABAE;
-  font-family: Arial, sans-serif;
-  transition: background-color 0.3s, border-color 0.3s;
 }/*# sourceMappingURL=dark-mode.css.map */
