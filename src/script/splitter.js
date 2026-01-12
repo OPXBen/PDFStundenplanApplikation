@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		return;
 	}
 
-	const dropZone = document.getElementById("dropZone");
+	const dropZonePDF = document.getElementById("dropZonePDF");
 	const fileInput = document.getElementById("fileInput");
 	const splitButton = document.getElementById("submit");
 	const optionSelect = document.getElementById("pdfOption");
@@ -27,13 +27,13 @@ document.addEventListener("DOMContentLoaded", () => {
 		if (!e.target.files.length) return;
 		selectedFile = e.target.files[0];
 		console.log("Selected via input:", selectedFile.name);
-		dropZone.textContent = `Selected: ${selectedFile.name}`;
+		dropZonePDF.textContent = `Selected: ${selectedFile.name}`;
 	});
 
 	// -----------------------------
-	// Click dropZone to open file dialog
+	// Click dropZonePDF to open file dialog
 	// -----------------------------
-	dropZone.addEventListener("click", () => fileInput.click());
+	dropZonePDF.addEventListener("click", () => fileInput.click());
 
 	// -----------------------------
 	// Prevent default drag behaviors
@@ -45,20 +45,20 @@ document.addEventListener("DOMContentLoaded", () => {
 		}, false);
 	});
 
-	dropZone.addEventListener("dragover", (e) => {
+	dropZonePDF.addEventListener("dragover", (e) => {
 		e.dataTransfer.dropEffect = "copy";
-		dropZone.classList.add("highlight");
+		dropZonePDF.classList.add("highlight");
 	});
 
-	dropZone.addEventListener("dragleave", () => dropZone.classList.remove("highlight"));
+	dropZonePDF.addEventListener("dragleave", () => dropZonePDF.classList.remove("highlight"));
 
-	dropZone.addEventListener("drop", (e) => {
-		dropZone.classList.remove("highlight");
+	dropZonePDF.addEventListener("drop", (e) => {
+		dropZonePDF.classList.remove("highlight");
 		const files = e.dataTransfer.files;
 		if (!files || !files.length) return;
 		selectedFile = files[0];
 		console.log("Dropped file:", selectedFile.name);
-		dropZone.textContent = `Selected: ${selectedFile.name}`;
+		dropZonePDF.textContent = `Selected: ${selectedFile.name}`;
 	});
 
 	// -----------------------------
