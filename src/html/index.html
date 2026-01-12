@@ -25,9 +25,10 @@
 
     <body>
         <h1>
-            <span id="B" style="color: #e74c3c; -webkit-text-stroke: 1px #000;">B</span>
-            <span id="F" style="color: #ffffff; -webkit-text-stroke: 1px #000;">F</span>
-            <span id="O" style="color: #e74c3c; -webkit-text-stroke: 1px #000;">O</span>
+            <span id="E" style="color: #e74c3c; -webkit-text-stroke: 1px #000;">E</span>
+            <span id="M" style="color: #e74c3c; -webkit-text-stroke: 1px #000;">M</span>
+            <span id="V" style="color: #e74c3c; -webkit-text-stroke: 1px #000;">V</span>
+            <span id="s" style="color: #ffffff; -webkit-text-stroke: 1px #000;">s</span>
         </h1>
 
         <div id="themeToggle">
@@ -39,30 +40,56 @@
             <img id="moon" src="../img/moon.png" alt="Dark Mode" style="width:20px;height:20px;">
         </button>
         </div>
+        <div id="table">
+        <table>
+            <tr>
+                <th>Right</th>
+                <th>Left</th>
+                <th>Middle</th>
+            </tr>
+            <tr>
+                <td>        <div id="dropZonePDF">
+                        Drop the PDF files here or click to select
+                    </div>
+                    <input type="file" id="fileInput" name="files" accept=".pdf" style="display: none;">
+            </td>
+                <td></td>
+                <td>        <div id="dropZoneVISA">
+                        Drop the VISA List here or click to select
+                    </div>
+                    <input type="file" id="fileInput" name="files" style="display: none;"></td>
+            </tr>
+            <tr class="row2">
+                <td>        <div id="OptionPDF">
+                        <label for="pdfOption">How do you want the PDF:</label>
+                        <select name="pdfOption" id="pdfOption">
+                            <option value="einzelnePDF">Single PDFs</option>
+                            <option value="mergedPDF">Merged PDF</option>
+                        </select>
+                    </div></td>
+                <td>       </td>
+                <td>        <input type="text" id="visaInput" placeholder="Enter Visa" maxlength="5" style="text-transform:uppercase;">
 
-        <input type="text" id="visaInput" placeholder="Enter Visa" maxlength="5" style="text-transform:uppercase;">
+                    <div id="listVisaUI">
+                        <ul id="listVisa">
+                            <!-- List items will be dynamically inserted here -->
+                        </ul>
+                    </div></td>
+            </tr>
+            <tr>
+                <td>
 
-        <div id="dropZone">
-            Drop the PDF files here or click to select
-        </div>
-        <input type="file" id="fileInput" name="files" accept=".pdf" style="display: none;">
+                </td>
+                <td>
+ <div id="submitButton">
+                        <button type="button" id="submit">submit</button>
+                    </div>
+                </td>
+                <td>
 
-        <div id="listVisaUI">
-            <ul id="listVisa">
-                <!-- List items will be dynamically inserted here -->
-            </ul>
-        </div>
-
-        <div id="OptionPDF">
-			<label for="pdfOption">How do you want the PDF:</label>
-			<select name="pdfOption" id="pdfOption">
-				<option value="einzelnePDF">Single PDFs in ZIP</option>
-				<option value="mergedPDF">Merged PDF</option>
-            </select>
-        </div>
-
-        <div id="submitButton">
-			<button type="button" id="submit">submit</button>
-        </div>
+                </td>
+            </tr>
+        </table> 
+                </div>
     </body>
 </html>
