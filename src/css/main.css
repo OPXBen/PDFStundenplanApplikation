@@ -63,7 +63,7 @@ h1 {
 }
 #table #visaInput {
   border-radius: 5px;
-  width: 50%;
+  width: 80%;
   margin-left: 10%;
 }
 
@@ -124,6 +124,7 @@ h1 {
   position: fixed;
   margin-top: 30px;
   display: flex;
+  z-index: 100;
 }
 #submitButton button {
   border-radius: 5px;
