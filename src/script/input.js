@@ -1,13 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => {
+	// -----------------------------
+	// VISA Section
+	// -----------------------------
 	const inputField = document.getElementById("visaInput");
 	const dropZoneVISA = document.getElementById("dropZoneVISA");
 	const fileInputVISA = document.getElementById("fileInputVISA");
 
 	if (!window.visaArray) window.visaArray = [];
 
-	// -----------------------------
-	// Render VISA list
-	// -----------------------------
 	function renderVisaList() {
 		const ul = document.getElementById("listVisa");
 		ul.innerHTML = "";
@@ -17,23 +17,18 @@ document.addEventListener("DOMContentLoaded", () => {
 			li.textContent = visa;
 			li.title = "Click to remove";
 
-			// Remove item on click
 			li.addEventListener("click", () => {
-				window.visaArray.splice(idx, 1); // remove from array
-				renderVisaList();                 // re-render list
+				window.visaArray.splice(idx, 1);
+				renderVisaList();
 			});
 
 			ul.appendChild(li);
 		});
 	}
 
-	// -----------------------------
-	// Add VISA safely
-	// -----------------------------
 	function addVisa(value) {
 		if (!value) return;
 		const visa = value.trim().toUpperCase();
-
 		if (!/^[A-Z]{4}(\d)?$/.test(visa)) return;
 		if (window.visaArray.includes(visa)) return;
 
@@ -41,13 +36,9 @@ document.addEventListener("DOMContentLoaded", () => {
 		renderVisaList();
 	}
 
-	// -----------------------------
-	// Manual input (Enter)
-	// -----------------------------
 	inputField.addEventListener("keydown", (event) => {
-		if (event.key.length === 1) { // regular char
+		if (event.key.length === 1) {
 			const value = inputField.value.toUpperCase();
-
 			if (value.length < 4 && !/[A-Z]/i.test(event.key)) event.preventDefault();
 			else if (value.length === 4 && !/[0-9]/.test(event.key)) event.preventDefault();
 			else if (value.length >= 5) event.preventDefault();
@@ -66,9 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		}
 	});
 
-	// -----------------------------
-	// VISA File Input / Drop
-	// -----------------------------
+	// VISA drag & drop / click
 	dropZoneVISA.addEventListener("click", () => fileInputVISA.click());
 
 	["dragenter", "dragover", "dragleave", "drop"].forEach(ev =>
@@ -76,12 +65,10 @@ document.addEventListener("DOMContentLoaded", () => {
 	);
 	dropZoneVISA.addEventListener("dragover", () => dropZoneVISA.classList.add("highlight"));
 	dropZoneVISA.addEventListener("dragleave", () => dropZoneVISA.classList.remove("highlight"));
-
 	dropZoneVISA.addEventListener("drop", (e) => {
 		dropZoneVISA.classList.remove("highlight");
 		handleVisaFile(e.dataTransfer.files[0]);
 	});
-
 	fileInputVISA.addEventListener("change", (e) => handleVisaFile(e.target.files[0]));
 
 	function handleVisaFile(file) {
@@ -95,5 +82,35 @@ document.addEventListener("DOMContentLoaded", () => {
 			}
 		};
 		reader.readAsText(file);
+	}
+
+	// -----------------------------
+	// PDF Section
+	// -----------------------------
+	const dropZonePDF = document.getElementById("dropZonePDF");
+	const fileInputPDF = document.getElementById("fileInput");
+
+	// Make PDF div clickable
+	dropZonePDF.addEventListener("click", () => fileInputPDF.click());
+
+	// Drag & drop events
+	["dragenter", "dragover", "dragleave", "drop"].forEach(ev =>
+		dropZonePDF.addEventListener(ev, e => { e.preventDefault(); e.stopPropagation(); })
+	);
+	dropZonePDF.addEventListener("dragover", () => dropZonePDF.classList.add("highlight"));
+	dropZonePDF.addEventListener("dragleave", () => dropZonePDF.classList.remove("highlight"));
+	dropZonePDF.addEventListener("drop", (e) => {
+		dropZonePDF.classList.remove("highlight");
+		handlePdfFiles(e.dataTransfer.files);
+	});
+
+	fileInputPDF.addEventListener("change", (e) => handlePdfFiles(e.target.files));
+
+	function handlePdfFiles(files) {
+		if (!files || files.length === 0) return;
+		const pdfFiles = Array.from(files).filter(f => f.type === "application/pdf");
+		if (!pdfFiles.length) return;
+		console.log("Selected PDFs:", pdfFiles);
+		// Here you can call your splitter function or store the files
 	}
 });

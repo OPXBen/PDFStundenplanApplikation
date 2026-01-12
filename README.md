@@ -16,8 +16,7 @@ StundenPlanMergerBFO is a browser-based tool for processing teacher timetable PD
 
 ## Demo
 
-<img src="src/img/moon.png" alt="demoXY" width="200"/><br>
-*WIP screenshots and Videos will come in the Future*
+<img src="demo/demoImage1.png" alt="demo Image 1" width="200"/><br>
 
 ---
 
