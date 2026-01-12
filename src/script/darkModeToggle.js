@@ -1,37 +1,40 @@
 window.addEventListener("DOMContentLoaded", () => {
-    let sheets = document.getElementsByTagName("link");
+	let themeLink = document.querySelector('link[href*="mode.css"]');
 
-    if (sheets.length === 0) {
-        // Create a <link> if none exists
-        let link = document.createElement("link");
-        link.rel = "stylesheet";
-        link.href = "../css/light-mode.css"; // default theme
-        document.head.appendChild(link);
-    } else {
-        // If one exists, set it to default
-        sheets[0].href = "../css/light-mode.css";
-    }
+	if (!themeLink) {
+		themeLink = document.createElement("link");
+		themeLink.rel = "stylesheet";
+		themeLink.href = "../css/light-mode.css";
+		document.head.appendChild(themeLink);
+	}
 
-    // Set default icon visibility
-    document.getElementById("sun").style.display = "none";
-    document.getElementById("moon").style.display = "inline";
+	const sun = document.getElementById("sun");
+	const moon = document.getElementById("moon");
+
+	// default: light mode
+	sun.style.display = "none";
+	moon.style.display = "grid";
+
+	document.getElementById("themeToggleBtn")
+		.addEventListener("click", toggleTheme);
 });
 
-function toggleTheme(value) {
-    let sheets = document.getElementsByTagName("link");
-    sheets[0].href = "../css/" + value;
+function toggleTheme() {
+	const themeLink = document.querySelector('link[href*="mode.css"]');
+	const sun = document.getElementById("sun");
+	const moon = document.getElementById("moon");
 
-    // Toggle the icons
-    let sun = document.getElementById("sun");
-    let moon = document.getElementById("moon");
+	const isDark = themeLink.href.includes("dark-mode.css");
 
-    if (sun.style.display === "none") {
-        // Currently in dark mode → switch to light
-        sun.style.display = "inline";
-        moon.style.display = "none";
-    } else {
-        // Currently in light mode → switch to dark
-        sun.style.display = "none";
-        moon.style.display = "inline";
-    }
+	if (isDark) {
+		// switch to light
+		themeLink.href = "../css/light-mode.css";
+		sun.style.display = "none";
+		moon.style.display = "grid";
+	} else {
+		// switch to dark
+		themeLink.href = "../css/dark-mode.css";
+		sun.style.display = "grid";
+		moon.style.display = "none";
+	}
 }

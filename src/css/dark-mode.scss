@@ -1,25 +1,78 @@
+@use "sass:color";
+
 $bgcolor: #222831;
 $fontcolor: #FFE8DF;
-$hovercolor: #88888835;
-
-
+$bordercolor: #555;
+$hovercolor: rgba(136, 136, 136, 0.2);
+$dropzone-bg: #393e46;
+$visa-bg: #393e46;
 
 body {
-    background-color:  $bgcolor;
-    color:  $fontcolor;
-    filter: invert(1) hue-rotate(180deg);
-
-
+    background-color: $bgcolor;
+    color: $fontcolor;
+    font-family: Arial, sans-serif;
 }
 
-#table {
-  filter: invert(1) hue-rotate(180deg); /* inverts colors */
+/* Header */
+header {
+    background-color: color.adjust($bgcolor, $lightness: -5%);
+    border-bottom: 2px solid $bordercolor;
+
+    h1 {
+        .emv { color: #ff6b6b; -webkit-text-stroke: 1px #000; }
+        .s { color: #fff; -webkit-text-stroke: 1px #000; }
+    }
+
+    #themeToggle button img {
+        filter: none;
+    }
 }
 
-#moon  {
-  filter: invert(1) hue-rotate(180deg); /* inverts colors */
+/* Main sections */
+main {
+    background-color: $bgcolor;
 }
 
-#sun  {
-  filter: invert(1) hue-rotate(180deg); /* inverts colors */
+.pdf-section, .visa-section {
+    background-color: $bgcolor;
+    color: $fontcolor;
+}
+
+/* Drop zones */
+#dropZonePDF, #dropZoneVISA {
+    background-color: $dropzone-bg;
+    color: $fontcolor;
+    border: 2px dashed $bordercolor;
+
+    &:hover { background-color: $hovercolor; }
+
+    .icon {
+        color: #ff6b6b;
+    }
+}
+
+/* PDF option select */
+#OptionPDF select {
+    background-color: $dropzone-bg;
+    color: $fontcolor;
+    border: 1px solid $bordercolor;
+}
+
+/* Visa list */
+#visaListWrapper ul#listVisa {
+    background-color: $visa-bg;
+    color: $fontcolor;
+    //border: 1px solid $bordercolor;
+
+    li:hover {
+        background-color: $hovercolor;
+        text-decoration: line-through;
+    }
+}
+
+/* Inputs */
+#visaInput {
+    background-color: $dropzone-bg;
+    color: $fontcolor;
+    border: 1px solid $bordercolor;
 }

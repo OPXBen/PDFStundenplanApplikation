@@ -1,154 +1,176 @@
-/*
-Everything that doesnt change between dark and light mode
-for Example sizing or layout
-*/
-h1 {
-  text-align: center;
-  margin-top: 20px;
+/* -----------------------
+   General Styles
+----------------------- */
+body {
   font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: var(--header-bg, #fff);
+  border-bottom: 2px solid #000;
+}
+
+h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+h1 .emv {
+  color: #e74c3c;
+  -webkit-text-stroke: 1px #000;
+}
+h1 .s {
+  color: #fff;
+  -webkit-text-stroke: 1px #000;
 }
 
 #themeToggle button {
-  background: none; /* no background */
-  border: none; /* no border */
-  padding: 0; /* remove default padding */
-  cursor: pointer; /* show pointer on hover */
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
 }
 
-#themeToggle button img {
-  display: block; /* prevents small spacing issues */
-  margin: 10px;
+#themeToggle img {
+  grid-area: 1/1;
+  width: 20px;
+  height: 20px;
 }
 
-#themeToggle button img:hover {
-  opacity: 0.7; /* dim when hovered */
-  transform: scale(1.1); /* grow slightly */
-}
-
-#themeToggle {
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  z-index: 1000; /* ensure it stays on top */
-}
-
-/* PDF Dropp */
-#table #dropZonePDF {
-  border: 2px dashed #000000;
-  border-radius: 20px;
-  width: 95%;
-  height: 100px;
-  text-align: center;
-  line-height: 100px;
-  color: #888888;
-  font-family: Arial, sans-serif;
-  transition: background-color 0.3s, border-color 0.3s;
-}
-#table #dropZonePDF:hover {
-  background-color: rgba(136, 136, 136, 0.2078431373);
-}
-#table #dropZoneVISA {
-  float: right;
-  border: 2px dashed #000000;
-  border-radius: 20px;
-  width: 95%;
-  height: 100px;
-  text-align: center;
-  line-height: 100px;
-  color: #888888;
-  font-family: Arial, sans-serif;
-  transition: background-color 0.3s, border-color 0.3s;
-}
-#table #dropZoneVISA:hover {
-  background-color: rgba(136, 136, 136, 0.2078431373);
-}
-#table #visaInput {
-  border-radius: 5px;
-  width: 80%;
-  margin-left: 10%;
-  margin-bottom: 5px;
-}
-
-/* Remove VISA list from table flow */
-#listVisaUI {
-  position: absolute;
-  margin-top: 1%;
-  right: 100%; /* stays left of input */
-  margin-right: -35%; /* spacing from input */
+/* -----------------------
+   Main Layout
+----------------------- */
+main {
   display: flex;
-  flex-direction: column; /* stack vertically */
-  align-items: flex-start; /* left-align everything */
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 20px;
+  gap: 20px;
+}
+
+.pdf-section,
+.visa-section {
+  flex: 1 1 300px;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* -----------------------
+   Drop Zones
+----------------------- */
+#dropZonePDF,
+#dropZoneVISA {
+  position: relative;
+  border: 2px dashed #000;
+  border-radius: 15px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+#dropZonePDF:hover,
+#dropZoneVISA:hover {
+  background-color: rgba(136, 136, 136, 0.2078431373);
+}
+#dropZonePDF .icon,
+#dropZoneVISA .icon {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+  color: #e74c3c;
+  font-weight: bold;
+  user-select: none;
+}
+
+/* -----------------------
+   Visa Input & List
+----------------------- */
+#visaInput {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 15ch;
+  padding: 4px;
+  text-transform: uppercase;
+}
+
+#visaListWrapper {
+  position: relative;
+  max-width: 15ch;
+}
+#visaListWrapper ul#listVisa {
+  list-style: none;
+  padding: 5px;
+  margin-top: 5px;
   max-height: 200px;
   overflow-y: auto;
-  overflow-x: hidden; /* prevent horizontal scrollbar */
-  padding: 5px;
-  box-sizing: border-box;
-  z-index: 20;
+  background-color: transparent;
+  border-radius: 5px;
 }
-#listVisaUI li {
-  list-style: none;
-  padding: 4px 8px;
-  min-width: 60px; /* optional, ensures uniform left edge */
-  box-sizing: border-box;
-  white-space: nowrap; /* prevent wrapping */
+#visaListWrapper ul#listVisa li {
+  padding: 2px 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
 }
-#listVisaUI li:hover {
+#visaListWrapper ul#listVisa li:hover {
   background-color: rgba(136, 136, 136, 0.2078431373);
   text-decoration: line-through;
 }
-#listVisaUI #listVisaUI::-webkit-scrollbar {
-  width: 12px;
-}
-#listVisaUI #listVisaUI::-webkit-scrollbar-track {
-  background: #e0e0e0;
-  border-radius: 6px;
-}
-#listVisaUI #listVisaUI::-webkit-scrollbar-thumb {
-  background: #000000;
-  border-radius: 6px;
-  border: 2px solid #e0e0e0; /* creates contrast */
-}
-#listVisaUI #listVisaUI::-webkit-scrollbar-thumb:hover {
-  background: #000000;
-}
 
-#OptionPDF {
-  text-align: center;
-}
+/* -----------------------
+   PDF Option
+----------------------- */
 #OptionPDF select {
   border-radius: 5px;
-}
-#OptionPDF label {
-  font-family: Arial, sans-serif;
+  padding: 5px;
 }
 
-#submitButton {
-  position: fixed;
-  margin-top: 30px;
+/* -----------------------
+   Footer & Submit
+----------------------- */
+footer {
   display: flex;
-  z-index: 100;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0;
 }
-#submitButton button {
+footer #submit {
   border-radius: 5px;
+  padding: 8px 16px;
+  font-size: 1rem;
+  cursor: pointer;
 }
-#submitButton button:hover {
+footer #submit:hover {
   background-color: rgba(136, 136, 136, 0.2078431373);
 }
 
-table {
-  margin-left: 10%;
+/* -----------------------
+   Responsive
+----------------------- */
+@media (max-width: 600px) {
+  main {
+    flex-direction: column;
+    align-items: center;
+  }
+  #dropZonePDF,
+  #dropZoneVISA {
+    width: 100%;
+  }
 }
 
-.row2 td {
-  height: 0px; /* different height for the middle row */
-  vertical-align: top;
-}
-
-.row2 td:last-child {
-  position: relative;
-}
-
-table, th, td {
-  margin-left: 10%;
-  border: 1px solid black;
-}/*# sourceMappingURL=main.css.map */
+/*# sourceMappingURL=main.css.map */

@@ -1,96 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>StundenPlanMergerBFO</title>
-        <link rel="stylesheet" href="../css/light-mode.css">
-        <link rel="stylesheet" href="../css/main.css">
-        <script src="../script/darkModeToggle.js"></script>
-        <!-- PDF.js -->
-        <script src="../libs/pdf.min.js"></script>
-        <script>
-            pdfjsLib.GlobalWorkerOptions.workerSrc = '../libs/pdf.worker.min.js';
-        </script>
-        <!-- PDF-lib (browser-ready) -->
-        <script src="../libs/pdf-lib.min.js"></script>
-		<!-- JSZip for zipping multiple PDFs -->
-		<script src="../libs/jszip.min.js"></script>
-		<!-- FileSaver.js for saving the zip -->
-		<script src="../libs/FileSaver.min.js"></script>
-        <!-- Splitter JS -->
-        <script type="module" src="../script/splitter.js"></script>
-		<script src="../script/input.js"></script>
-    </head>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>StundenPlanMergerBFO</title>
 
-    <body>
-        <h1>
-            <span id="E" style="color: #e74c3c; -webkit-text-stroke: 1px #000;">E</span>
-            <span id="M" style="color: #e74c3c; -webkit-text-stroke: 1px #000;">M</span>
-            <span id="V" style="color: #e74c3c; -webkit-text-stroke: 1px #000;">V</span>
-            <span id="s" style="color: #ffffff; -webkit-text-stroke: 1px #000;">s</span>
-        </h1>
+	<link rel="stylesheet" href="../css/light-mode.css">
+	<link rel="stylesheet" href="../css/main.css">
+	<script src="../script/darkModeToggle.js"></script>
 
-        <div id="themeToggle">
-        <button onclick="toggleTheme('light-mode.css')">
-            <img id="sun" src="../img/sun.png" alt="Light Mode" style="width:20px;height:20px;">
-        </button>
+	<!-- PDF.js -->
+	<script src="../libs/pdf.min.js"></script>
+	<script>
+		pdfjsLib.GlobalWorkerOptions.workerSrc = '../libs/pdf.worker.min.js';
+	</script>
 
-        <button onclick="toggleTheme('dark-mode.css')">
-            <img id="moon" src="../img/moon.png" alt="Dark Mode" style="width:20px;height:20px;">
-        </button>
-        </div>
-        <div id="table">
-        <table>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-            <tr>
-                <td>        <div id="dropZonePDF">
-                        Drop the PDF files here or click to select
-                    </div>
-                    <input type="file" id="fileInput" name="files" accept=".pdf" style="display: none;">
-            </td>
-                <td></td>
-                <td>        <div id="dropZoneVISA">
-                        Drop the VISA List here or click to select
-                    </div>
-                    <input type="file" id="fileInput" name="files" style="display: none;"></td>
-            </tr>
-            <tr class="row2">
-                <td>        <div id="OptionPDF">
-                        <label for="pdfOption">How do you want the PDF:</label>
-                        <select name="pdfOption" id="pdfOption">
-                            <option value="einzelnePDF">Single PDFs</option>
-                            <option value="mergedPDF">Merged PDF</option>
-                        </select>
-                    </div></td>
-                <td>       </td>
-                <td>       
+	<!-- PDF-lib & JSZip & FileSaver -->
+	<script src="../libs/pdf-lib.min.js"></script>
+	<script src="../libs/jszip.min.js"></script>
+	<script src="../libs/FileSaver.min.js"></script>
 
-                    <div id="listVisaUI">
-                         <input type="text" id="visaInput" placeholder="Enter Visa" minlength="4" maxlength="5" style="text-transform:uppercase;">
-                        <ul id="listVisa">
-                            <!-- List items will be dynamically inserted here -->
-                        </ul>
-                    </div></td>
-            </tr>
-            <tr>
-                <td>
+	<!-- App scripts -->
+	<script type="module" src="../script/splitter.js"></script>
+	<script type="module" src="../script/input.js"></script>
+</head>
 
-                </td>
-                <td>
- <div id="submitButton">
-                        <button type="button" id="submit">submit</button>
-                    </div>
-                </td>
-                <td>
+<body>
+	<header>
+		<h1>
+			<span class="emv">EMV</span><span class="s">s</span>
+		</h1>
 
-                </td>
-            </tr>
-        </table> 
-                </div>
-    </body>
+		<div id="themeToggle">
+			<button id="themeToggleBtn" type="button">
+				<img id="sun" src="../img/sun.png" alt="Light Mode">
+				<img id="moon" src="../img/moon.png" alt="Dark Mode">
+			</button>
+		</div>
+	</header>
+
+	<main>
+		<section class="pdf-section">
+			<label for="fileInput">Select or drop PDF files:</label>
+			<div id="dropZonePDF">Drop the PDF files here or click to select</div>
+			<input type="file" id="fileInput" accept=".pdf" hidden>
+
+			<div id="OptionPDF">
+				<label for="pdfOption">PDF Output Mode:</label>
+				<select id="pdfOption">
+					<option value="einzelnePDF">Single PDFs</option>
+					<option value="mergedPDF">Merged PDF</option>
+				</select>
+			</div>
+		</section>
+
+		<section class="visa-section">
+			<label for="visaInput">Enter Visa Code or Drop Visa File:</label>
+			<div id="dropZoneVISA">Drop the VISA List here or click to select</div>
+			<input type="text" id="visaInput" placeholder="Enter Visa" maxlength="5">
+			<input type="file" id="fileInputVISA" accept=".txt,.csv" hidden>
+
+			<div id="visaListWrapper">
+				<ul id="listVisa"></ul>
+			</div>
+		</section>
+	</main>
+
+	<footer>
+		<button id="submit">Submit</button>
+	</footer>
+</body>
 </html>

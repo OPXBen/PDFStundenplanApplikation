@@ -1,12 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 	const inputField = document.getElementById("visaInput");
 	const dropZoneVISA = document.getElementById("dropZoneVISA");
-	const fileInputVISA = document.createElement("input");
-
-	fileInputVISA.type = "file";
-	fileInputVISA.accept = ".txt,.csv";
-	fileInputVISA.style.display = "none";
-	document.body.appendChild(fileInputVISA);
+	const fileInputVISA = document.getElementById("fileInputVISA");
 
 	if (!window.visaArray) window.visaArray = [];
 
@@ -20,12 +15,14 @@ document.addEventListener("DOMContentLoaded", () => {
 		window.visaArray.forEach((visa, idx) => {
 			const li = document.createElement("li");
 			li.textContent = visa;
-			li.style.cursor = "pointer";
 			li.title = "Click to remove";
-			li.onclick = () => {
-				window.visaArray.splice(idx, 1);
-				renderVisaList();
-			};
+
+			// Remove item on click
+			li.addEventListener("click", () => {
+				window.visaArray.splice(idx, 1); // remove from array
+				renderVisaList();                 // re-render list
+			});
+
 			ul.appendChild(li);
 		});
 	}
@@ -37,7 +34,6 @@ document.addEventListener("DOMContentLoaded", () => {
 		if (!value) return;
 		const visa = value.trim().toUpperCase();
 
-		// Only allow 4 letters OR 4 letters + 1 number
 		if (!/^[A-Z]{4}(\d)?$/.test(visa)) return;
 		if (window.visaArray.includes(visa)) return;
 
@@ -49,30 +45,21 @@ document.addEventListener("DOMContentLoaded", () => {
 	// Manual input (Enter)
 	// -----------------------------
 	inputField.addEventListener("keydown", (event) => {
-		// Only allow letters or numbers as needed
 		if (event.key.length === 1) { // regular char
 			const value = inputField.value.toUpperCase();
 
-			if (value.length < 4 && !/[A-Z]/i.test(event.key)) {
-				event.preventDefault(); // only letters for first 4 chars
-			} else if (value.length === 4 && !/[0-9]/.test(event.key)) {
-				event.preventDefault(); // only allow number as 5th char
-			} else if (value.length >= 5) {
-				event.preventDefault(); // max 5 chars
-			}
+			if (value.length < 4 && !/[A-Z]/i.test(event.key)) event.preventDefault();
+			else if (value.length === 4 && !/[0-9]/.test(event.key)) event.preventDefault();
+			else if (value.length >= 5) event.preventDefault();
 		}
 
-		// Enter pressed
 		if (event.key === "Enter") {
 			event.preventDefault();
 			const value = inputField.value.toUpperCase();
-
-			// Only allow Enter if 4 letters OR 4 letters + 1 number
 			if (/^[A-Z]{4}(\d)?$/.test(value)) {
 				addVisa(value);
 				inputField.value = "";
 			} else {
-				// Invalid, maybe flash red briefly
 				inputField.style.border = "2px solid red";
 				setTimeout(() => inputField.style.border = "", 300);
 			}
@@ -80,59 +67,33 @@ document.addEventListener("DOMContentLoaded", () => {
 	});
 
 	// -----------------------------
-	// Click DropZone → open file dialog
+	// VISA File Input / Drop
 	// -----------------------------
 	dropZoneVISA.addEventListener("click", () => fileInputVISA.click());
 
-	// -----------------------------
-	// Drag & Drop
-	// -----------------------------
-	["dragenter", "dragover", "dragleave", "drop"].forEach(eventName => {
-		dropZoneVISA.addEventListener(eventName, e => {
-			e.preventDefault();
-			e.stopPropagation();
-		});
-	});
-
+	["dragenter", "dragover", "dragleave", "drop"].forEach(ev =>
+		dropZoneVISA.addEventListener(ev, e => { e.preventDefault(); e.stopPropagation(); })
+	);
 	dropZoneVISA.addEventListener("dragover", () => dropZoneVISA.classList.add("highlight"));
 	dropZoneVISA.addEventListener("dragleave", () => dropZoneVISA.classList.remove("highlight"));
 
-	// Drop file
 	dropZoneVISA.addEventListener("drop", (e) => {
 		dropZoneVISA.classList.remove("highlight");
-		const file = e.dataTransfer.files[0];
-		if (!file) return;
-		handleVisaFile(file);
+		handleVisaFile(e.dataTransfer.files[0]);
 	});
 
-	// File input change
-	fileInputVISA.addEventListener("change", (e) => {
-		const file = e.target.files[0];
-		if (!file) return;
-		handleVisaFile(file);
-	});
+	fileInputVISA.addEventListener("change", (e) => handleVisaFile(e.target.files[0]));
 
-	// Read VISA file
 	function handleVisaFile(file) {
+		if (!file) return;
 		const reader = new FileReader();
-
 		reader.onload = () => {
 			const lines = reader.result.split(/\r?\n/);
-
 			for (const line of lines) {
-				const trimmed = line.trim();
-				if (!trimmed) continue;
-
-				// VISA is first token
-				const visa = trimmed.split(/\s+/)[0].toUpperCase();
-
-				// Only 4 letters OR 4 letters + 1 number
-				if (/^[A-Z]{4}(\d)?$/.test(visa)) {
-					addVisa(visa);
-				}
+				const visa = line.trim().split(/\s+/)[0].toUpperCase();
+				if (/^[A-Z]{4}(\d)?$/.test(visa)) addVisa(visa);
 			}
 		};
-
 		reader.readAsText(file);
 	}
 });
