@@ -1,3 +1,5 @@
+import { Environnement } from "./Environnement.js";
+
 document.addEventListener("DOMContentLoaded", () => {
 	const { PDFDocument } = window.PDFLib || {};
 	if (!PDFDocument) {
@@ -14,6 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	const fileInput = document.getElementById("fileInput");
 	const splitButton = document.getElementById("submit");
 	const optionSelect = document.getElementById("pdfOption");
+	const env = new Environnement();
 
 	let selectedFile = null;
 
@@ -87,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			}
 		} catch (err) {
 			console.error("Error processing PDF:", err);
-			alert("Failed. See console for details.");
+			alert("Error processing PDF:", err);
 		}
 	});
 	// -----------------------------
@@ -173,12 +176,12 @@ document.addEventListener("DOMContentLoaded", () => {
 		if (visaArray.length > 0) {
 			const missing = visaArray.filter(v => !foundVisas.has(v));
 			if (missing.length) {
-				alert(`ZIP created, but visa(s) ${missing.join(", ")} were not found in the document.`);
+				env.noBreakMessage(`ZIP created, but visa(s) ${missing.join(", ")} were not found in the document.`);
 			} else {
-				console.log("✅ All requested visas saved into a ZIP!");
+				env.downloadMessage("✅ All requested visas saved into a ZIP!");
 			}
 		} else {
-			console.log("✅ All pages saved into a ZIP!");
+			env.downloadMessage("✅ All pages saved into a ZIP!");
 		}
 	}
 
@@ -236,10 +239,10 @@ document.addEventListener("DOMContentLoaded", () => {
 			if (missing.length) {
 				alert(`Merged PDF created, but visa(s) ${missing.join(", ")} were not found in the document.`);
 			} else {
-				console.log("✅ Merged PDF created with all requested visas!");
+				env.downloadMessage("✅ Merged PDF created with all requested visas!");
 			}
 		} else {
-			console.log("✅ Merged PDF created with all pages!");
+			env.downloadMessage("✅ Merged PDF created with all pages!");
 		}
 	}
 
