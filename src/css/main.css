@@ -69,28 +69,26 @@ h1 {
 
 /* Remove VISA list from table flow */
 #listVisaUI {
-  margin-top: 5px;
-  margin-right: 5%;
-  position: absolute; /* move left of input */
-  right: 70%; /* spacing from input */
-  padding-top: 100%; /* pushes scrollbar start down */
-  padding-right: 8px; /* space for scrollbar */
-  scrollbar-gutter: stable both-edges;
-  list-style: none;
+  position: absolute;
+  margin-top: 1%;
+  right: 100%; /* stays left of input */
+  margin-right: -35%; /* spacing from input */
+  display: flex;
+  flex-direction: column; /* stack vertically */
+  align-items: flex-start; /* left-align everything */
   max-height: 200px;
   overflow-y: auto;
-  padding: 6px;
+  overflow-x: hidden; /* prevent horizontal scrollbar */
+  padding: 5px;
+  box-sizing: border-box;
   z-index: 20;
-  align-items: flex-start;
 }
 #listVisaUI li {
-  list-style: none; /* Ensure list items have no markers */
-  display: inline-flex;
-  justify-content: flex-start;
-  min-width: 60px; /* fixed left edge */
+  list-style: none;
   padding: 4px 8px;
+  min-width: 60px; /* optional, ensures uniform left edge */
   box-sizing: border-box;
-  white-space: nowrap;
+  white-space: nowrap; /* prevent wrapping */
 }
 #listVisaUI li:hover {
   background-color: rgba(136, 136, 136, 0.2078431373);
