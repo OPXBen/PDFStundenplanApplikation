@@ -36,7 +36,7 @@ h1 {
 #table #dropZonePDF {
   border: 2px dashed #000000;
   border-radius: 20px;
-  width: 100%;
+  width: 95%;
   height: 100px;
   text-align: center;
   line-height: 100px;
@@ -48,9 +48,10 @@ h1 {
   background-color: rgba(136, 136, 136, 0.2078431373);
 }
 #table #dropZoneVISA {
+  float: right;
   border: 2px dashed #000000;
   border-radius: 20px;
-  width: 100%;
+  width: 95%;
   height: 100px;
   text-align: center;
   line-height: 100px;
@@ -65,6 +66,7 @@ h1 {
   border-radius: 5px;
   width: 80%;
   margin-left: 10%;
+  margin-bottom: 5px;
 }
 
 /* Remove VISA list from table flow */
@@ -134,7 +136,7 @@ h1 {
 }
 
 table {
-  margin-left: 8%;
+  margin-left: 10%;
 }
 
 .row2 td {
@@ -146,7 +148,7 @@ table {
   position: relative;
 }
 
-/*table, th, td {
-  margin-left: 8%;
-  border:1px solid black;
-}*//*# sourceMappingURL=main.css.map */
+table, th, td {
+  margin-left: 10%;
+  border: 1px solid black;
+}/*# sourceMappingURL=main.css.map */
