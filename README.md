@@ -18,6 +18,12 @@ No server, no upload, no installation required.
 
 ---
 
+## Installation Video Guide
+
+[![Watch the Installation Video](demo/demoThumbnail.png)](demo/demonstationVideo.mp4)
+
+---
+
 ## Browser Installation (Recommended)
 
 The easiest way to use the application is via the **prebuilt browser release**.
