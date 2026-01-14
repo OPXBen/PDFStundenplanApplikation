@@ -1,74 +1,83 @@
 # StundenPlanMergerBFO
 
-StundenPlanMergerBFO is a browser-based tool for processing teacher timetable PDFs. It allows users to extract individual teacher schedules into separate PDFs or merge selected schedules into a single PDF. The application can also generate a ZIP containing multiple PDFs for easy download.
+StundenPlanMergerBFO is a **browser-based PDF processing tool** for teacher timetables.  
+It allows extracting individual teacher schedules into separate PDFs or merging selected schedules into a single PDF — fully **offline and client-side**.
+
+No server, no upload, no installation required.
 
 ---
 
 ## Features
 
-* Drag and drop or select a PDF containing multiple teacher timetables.
-* Enter multiple teacher names (Visa numbers or identifiers) to filter schedules.
-* Generate **individual PDFs** for each selected teacher and download as a ZIP.
-* Generate a **merged PDF** containing all selected teacher schedules.
-* Light mode / dark mode toggle.
+- Drag & drop or select a PDF containing multiple teacher timetables
+- Enter multiple teacher identifiers (Visa numbers)
+- Generate **individual PDFs** per teacher and download them as a ZIP
+- Generate a **single merged PDF** containing selected schedules
+- Light mode / dark mode toggle
+- Works fully offline (all processing happens in the browser)
 
 ---
 
-## Demo
+## Browser Installation (Recommended)
 
-<img src="demo/demoImage1.png" alt="demo Image 1" width="200"/><br>
+The easiest way to use the application is via the **prebuilt browser release**.
 
----
+### 1. Download
 
-## Installation
+Download the file:
 
-This project is fully client-side and runs in modern browsers. No server setup is required.
-
-1. Clone the repository:
-
-```bash
-git clone https://github.com/OPXBen/PDFStundenplanApplikation
-cd StundenPlanMergerBFO
+```
+BrowserVersion.zip
 ```
 
-2. Open `src/html/index.html` in your browser.
+---
+
+### 2. Extract
+
+1. Extract `BrowserVersion.zip`
+2. Inside the extracted folder you will find a **`src`** directory
+
+Do **not** open the application directly from inside the ZIP file.
+
+---
+
+### 3. Start the application
+
+1. Open the extracted `src` folder
+2. Double-click **`index.html`**
+
+This file automatically **redirects to the actual application entry point**.
+
+- Works via `file://`
+- No local server required
+- No internet connection required
 
 ---
 
 ## Usage
 
-1. Open the tool in your browser.
-2. Drag and drop a PDF containing teacher timetables into the drop zone or click to select a file.
-3. Enter teacher names (Visa numbers) in the input field. You can enter multiple names.
-4. Choose one of the PDF options:
+1. Open the application in your browser
+2. Drag & drop a timetable PDF
+3. Enter one or more teacher Visa numbers
+4. Choose:
+   - **ZIP with single PDFs**
+   - **Merged PDF**
+5. Click **Submit**
+6. Download starts automatically
 
-   * **Single PDFs in ZIP** – Each teacher schedule saved as a separate PDF.
-   * **Merged PDF** – All selected schedules combined into a single PDF.
-5. Click **Submit**.
-6. Download will start automatically once processing is complete.
 ---
 
 ## Dependencies
 
-All libraries are stored localy:
+All libraries are bundled locally:
 
-* [pdf.js](https://github.com/mozilla/pdf.js) – Apache-2.0
-* [pdf-lib](https://github.com/Hopding/pdf-lib) – MIT
-* [JSZip](https://stuk.github.io/jszip/) – MIT/GPLv3
-* [FileSaver.js](https://github.com/eligrey/FileSaver.js) – MIT
+- pdf.js
+- pdf-lib
+- JSZip
+- FileSaver.js
 
 ---
 
 ## License
 
-This project is licensed under the MIT License – see the [LICENSE](./LICENSE) file for details.
-
-Third-party library licenses are listed in [THIRD-PARTY-LICENSES.md](./THIRD-PARTY-LICENSES.md).
-
----
-
-## Notes
-
-* Works in modern browsers (Chrome, Firefox, Edge, Safari).
-* Large PDFs may take a few seconds to process depending on browser and machine performance.
-* This project does not store any uploaded PDFs; all processing happens in the browser.
+MIT License
