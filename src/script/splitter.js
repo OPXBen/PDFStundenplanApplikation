@@ -1,6 +1,3 @@
-import { Environnement } from "./Environnement.js";
-import { DropZoneHandler } from "./DropZoneHandler.js";
-
 document.addEventListener("DOMContentLoaded", () => {
 	const { PDFDocument } = window.PDFLib || {};
 	if (!PDFDocument) {

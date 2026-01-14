@@ -1,6 +1,4 @@
-import { Environnement } from "./Environnement.js";
-
-export class DropZoneHandler {
+class DropZoneHandler {
 	constructor({
 		zoneId,             // ID of drop zone element
 		fileType = "pdf",    // "pdf" or "visa"
@@ -136,3 +134,5 @@ export class DropZoneHandler {
 		});
 	}
 }
+
+window.DropZoneHandler = DropZoneHandler;

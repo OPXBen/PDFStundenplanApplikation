@@ -5,24 +5,29 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>StundenPlanMergerBFO</title>
 
+	<!-- CSS -->
 	<link rel="stylesheet" href="../css/light-mode.css">
 	<link rel="stylesheet" href="../css/main.css">
+
+	<!-- Dark mode toggle (no imports, safe early load) -->
 	<script src="../script/darkModeToggle.js"></script>
 
 	<!-- PDF.js -->
 	<script src="../libs/pdf.min.js"></script>
 	<script>
-		pdfjsLib.GlobalWorkerOptions.workerSrc = '../libs/pdf.worker.min.js';
+		pdfjsLib.GlobalWorkerOptions.workerSrc = "../libs/pdf.worker.min.js";
 	</script>
 
-	<!-- PDF-lib & JSZip & FileSaver -->
+	<!-- PDF-lib / JSZip / FileSaver -->
 	<script src="../libs/pdf-lib.min.js"></script>
 	<script src="../libs/jszip.min.js"></script>
 	<script src="../libs/FileSaver.min.js"></script>
 
-	<!-- App scripts -->
-	<script type="module" src="../script/splitter.js"></script>
-	<script type="module" src="../script/input.js"></script>
+	<!-- App core (ORDER MATTERS) -->
+	<script src="../script/Environnement.js"></script>
+	<script src="../script/DropZoneHandler.js"></script>
+	<script src="../script/input.js"></script>
+	<script src="../script/splitter.js"></script>
 </head>
 
 <body>

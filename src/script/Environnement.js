@@ -1,4 +1,4 @@
-export class Environnement {
+class Environnement {
 	constructor() {
 		this.isTauriApp =
 			typeof window !== "undefined" &&
@@ -28,3 +28,6 @@ export class Environnement {
 		}, 200);
 	}
 }
+
+// expose globally
+window.Environnement = Environnement;
