@@ -16,6 +16,62 @@ document.addEventListener("DOMContentLoaded", () => {
 	let selectedPDF = null;
 
 	// -----------------------------
+	// Helper: extract name after visa
+	// -----------------------------
+function extractName(items, code) {
+	const VISA = code.toUpperCase();
+
+	// 1. normalize: remove empty items & trim
+	const normalized = items
+		.map(s => s.trim())
+		.filter(s => s.length > 0);
+
+	// 2. find index of VISA/code
+	const idx = normalized.findIndex(s => s.toUpperCase() === VISA);
+	if (idx === -1) return "";
+
+	const nameParts = [];
+
+	// 3. scan forward from the code
+	for (let i = idx + 1; i < normalized.length; i++) {
+		const word = normalized[i];
+
+		// stop conditions
+		if (
+			/^(montag|dienstag|mittwoch|donnerstag|freitag)$/i.test(word) ||
+			/\d/.test(word) ||
+			/^\s*Pers\.?Nr/i.test(word) // stop at anything like Pers.Nr
+		) break;
+
+		// skip if accidentally matches the code again
+		if (word.toUpperCase() === VISA) continue;
+
+		// skip placeholder words
+		if (/^unbekannt$/i.test(word)) continue;
+
+		// split item by space to handle multi-word names
+		const subWords = word.split(/\s+/);
+
+		for (let sub of subWords) {
+			// check for valid name word: letters from any language + hyphens
+			if (/^\p{L}+(?:-\p{L}+)*$/u.test(sub)) {
+				const normalizedWord =
+					sub.charAt(0).toUpperCase() + sub.slice(1).toLowerCase();
+				nameParts.push(normalizedWord);
+			}
+
+			if (nameParts.length === 3) break; // realistic limit
+		}
+
+		if (nameParts.length === 3) break;
+	}
+
+	if (nameParts.length === 0) return ""; // fallback if nothing found
+
+	return nameParts.join("_");
+}
+
+	// -----------------------------
 	// Initialize DropZones
 	// -----------------------------
 	const pdfDrop = new DropZoneHandler({
@@ -78,13 +134,15 @@ document.addEventListener("DOMContentLoaded", () => {
 			const textContent = await page.getTextContent();
 			const items = textContent.items.map(it => it.str);
 
+console.log(`Page ${i} items:`, items);
+
 			let code = null;
 			let namePart = "";
 
 			if (visaArray.length > 0) {
 				for (const visa of visaArray) {
 					if (items.some(str => str.toUpperCase().includes(visa.toUpperCase()))) {
-						code = visa;
+						code = visa.toUpperCase();
 						foundVisas.add(visa);
 						break;
 					}
@@ -100,15 +158,16 @@ document.addEventListener("DOMContentLoaded", () => {
 				if (!code) code = `PAGE${i}`;
 			}
 
-			const joinedText = items.join(" ");
-			const visaRegex = new RegExp(`${code}\\s+(.*?)\\s+Pers\\.Nr\\.?`, "i");
-			const match = joinedText.match(visaRegex);
-			if (match && match[1]) {
-				namePart = match[1].trim().replace(/\s+/g, "_");
-			}
+			namePart = extractName(items, code);
 
 			let filename = code;
-			if (namePart) filename += "_" + namePart;
+			if (namePart) {
+				filename += "_" + namePart;
+			} else {
+				filename += `_PAGE${i}`;
+			}
+
+
 			filename = filename.replace(/[^A-Za-z0-9\-_]/g, "");
 
 			let suffix = 1;
