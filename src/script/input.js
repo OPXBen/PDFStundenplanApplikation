@@ -106,11 +106,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	fileInputPDF.addEventListener("change", (e) => handlePdfFiles(e.target.files));
 
+	let selectedPDF = null;
+
 	function handlePdfFiles(files) {
 		if (!files || files.length === 0) return;
 		const pdfFiles = Array.from(files).filter(f => f.type === "application/pdf");
 		if (!pdfFiles.length) return;
-		console.log("Selected PDFs:", pdfFiles);
-		// Here you can call your splitter function or store the files
+
+		selectedPDF = pdfFiles[0];
+
+		dropZonePDF.textContent = `Selected: ${selectedPDF.name}`;
+
+		console.log("PDF selected:", selectedPDF);
 	}
 });
